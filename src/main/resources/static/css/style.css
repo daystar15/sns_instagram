@@ -46,6 +46,12 @@ header .logo a {
 .uploadImgBox img {
 	width: 100%;
 }
+#heart button {
+	cursor: pointer;
+}
+#heart button img {
+	width: 25px;
+}
 .commentBox {
 	border-top: 1px solid #999;
 }
@@ -53,5 +59,12 @@ header .logo a {
 	width: 25px;
 }
 .comment button img {
+	width: 100%;
+	vertical-align: initial;
+}
+#writeComment input[type=text],
+#writeComment input[type=text]:focus {
+	border: none;
+	outline: none;
 	width: 100%;
 }
