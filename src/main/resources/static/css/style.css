@@ -2,6 +2,15 @@
 a, a:hover {
 	text-decoration: none !important;
 }
+textarea:focus {
+    outline: none;
+}
+button {
+	width: 40px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+}
 header .logo a {
 	color: #333;
 }
@@ -10,4 +19,39 @@ header .logo a {
 }
 #footer {
 	height: 100px;
+}
+#timelineBox .writeBox {
+	border: 1px solid #999;
+	border-radius: 5px;
+}
+#timelineBox .writeBox button {
+	width: 40px;
+}
+#timelineBox .writeBox button img {
+	width: 100%;
+}
+#timelineBox textarea {
+	border: none;
+	width: 100%;
+}
+#card {
+	border: 1px solid #999;
+}
+#card .moreBtn {
+	width: 40px;
+}
+#card .moreBtn img {
+	width: 100%;
+}
+.uploadImgBox img {
+	width: 100%;
+}
+.commentBox {
+	border-top: 1px solid #999;
+}
+.comment button {
+	width: 25px;
+}
+.comment button img {
+	width: 100%;
 }

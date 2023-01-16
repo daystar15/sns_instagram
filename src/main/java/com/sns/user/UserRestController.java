@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sns.common.EncryptUtils;
 import com.sns.user.bo.UserBO;
+import com.sns.user.model.User;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/user")
@@ -19,6 +22,11 @@ public class UserRestController {
 	@Autowired
 	private UserBO userBO;
 
+	/**
+	 * 중복확인 API
+	 * @param loginId
+	 * @return
+	 */
 	@RequestMapping("/is_duplicated_id")
 	public Map<String, Object> isDuplicationId(
 			@RequestParam("loginId") String loginId) {
@@ -36,6 +44,15 @@ public class UserRestController {
 		return result;
 	}
 	
+	/**
+	 * 회원가입 API
+	 * @param loginId
+	 * @param password
+	 * @param name
+	 * @param email
+	 * @param profileImageUrl
+	 * @return
+	 */
 	@PostMapping("/sign_up")
 	public Map<String, Object> signUp(
 			@RequestParam("loginId") String loginId,
@@ -56,4 +73,38 @@ public class UserRestController {
 		
 		return result;
 	}
+	
+	@PostMapping("/sign_in")
+	public Map<String, Object> signIn(
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password,
+			HttpSession session) {
+		
+		// 비밀번호 해싱
+		String hashedPassword = EncryptUtils.md5(password);
+		
+		// db select
+		User user = userBO.getUserByLoginIdPassword(loginId, hashedPassword);
+		
+		Map<String, Object> result = new HashMap<>();
+		if (user != null) {
+			// null이 아니면(행이 있으면) 로그인
+			result.put("code", 1);
+			result.put("result", "성공");
+			
+			// 세션에 유저 정보를 담는다.(로그인 유지)
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("userLoginId", user.getLoginId());
+			session.setAttribute("userName", user.getName());
+		} else {
+			// 행이 없으면 로그인 실패
+			result.put("code", 500);
+			result.put("errorMessage", "존재하지 않는 사용자입니다.");
+		}
+		
+		// return map
+		return result;
+		
+	}
+	
 }
