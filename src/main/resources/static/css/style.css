@@ -6,7 +6,7 @@ textarea:focus {
     outline: none;
 }
 button {
-	width: 40px;
+	/*width: 40px;*/
 	background: transparent;
 	border: none;
 	cursor: pointer;
@@ -67,4 +67,8 @@ header .logo a {
 	border: none;
 	outline: none;
 	width: 100%;
+}
+.writeBox #content {
+	width: 100%;
+	height: auto;
 }

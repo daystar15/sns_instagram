@@ -1,15 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <div id="timelineBox" class="w-50 m-auto p-5">
-	<div class="writeBox">
-		<textarea class="p-2" placeholder="내용을 입력해주세요"></textarea>
-		<div class="d-flex justify-content-between p-1">
-			<button>
-				<img src="/static/img/imgPlus.png" alt="사진첨부버튼">
-			</button>
-			<input type="button" class="btn btn-info" value="업로드">
-		</div>
-	</div>
 	<div class="mt-5 mb-5" id="card">
 		<div class="d-flex justify-content-between p-2 align-items-center">
 			<span class="font-weight-bold pl-2">${userName}userName</span>
