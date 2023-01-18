@@ -19,9 +19,5 @@ public interface PostDAO {
 			@Param("content") String content, 
 			@Param("imagePath") String imagePath);
 	
-	public Post selectPostByUserNameContentFile(
-			@Param("userId") int userId, 
-			@Param("content") String content, 
-			@Param("imagePath") String imagePath);
-	
+	public List<Post> selectPostListByUserId(int userId);
 }

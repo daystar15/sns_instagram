@@ -21,34 +21,38 @@
 	</c:if>
 	
 	<div class="mt-5 mb-5" id="card">
-		<div class="d-flex justify-content-between p-2 align-items-center">
-			<span class="font-weight-bold pl-2">${postUserId}</span>
-			<a href="#" class="moreBtn">
-				<img src="/static/img/more-icon.png" alt="더보기버튼">
-			</a>
-		</div>
-		
-		<div class="uploadImgBox">
-			<a href="#" id="fileUploadBtn">
-				<img src="/static/img/dog.jpg">
-			</a>
-		</div>
-		
-		<div id="contentBox" class="p-3">
-			<div id="heart" class="d-flex align-items-center mb-3">
-				<button type="button">
-					<img src="/static/img/heart-icon.png">
-				</button>
-				<!-- <img src="/static/img/heart-icon-black.png"> -->
-				<span class="ml-2">좋아요 11개</span>
+		<c:forEach var="post" items="${postList}">
+		<div>
+			<div class="d-flex justify-content-between p-2 align-items-center">
+				<span class="font-weight-bold pl-2">${post.userId}</span>
+				<a href="#" class="moreBtn">
+					<img src="/static/img/more-icon.png" alt="더보기버튼">
+				</a>
 			</div>
-			<div class="d-flex">
-				<span class="font-weight-bold mr-2">${postUserId}</span>
-				<p>
-					${postContent}
-				</p>
+			
+			<div class="uploadImgBox">
+				<a href="#" id="fileUploadBtn">
+					<img src="/static/img/dog.jpg">
+				</a>
+			</div>
+			
+			<div id="contentBox" class="p-3">
+				<div id="heart" class="d-flex align-items-center mb-3">
+					<button type="button">
+						<img src="/static/img/heart-icon.png">
+					</button>
+					<!-- <img src="/static/img/heart-icon-black.png"> -->
+					<span class="ml-2">좋아요 11개</span>
+				</div>
+				<div class="d-flex">
+					<span class="font-weight-bold mr-2">${post.userId}</span>
+					<p>
+						${post.content}
+					</p>
+				</div>
 			</div>
 		</div>
+		</c:forEach>
 		<div>
 			<h6 class="font-weight-bold p-3 mb-0">댓글</h6>
 			<div class="commentBox">

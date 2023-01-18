@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.post.bo.PostBO;
-import com.sns.post.model.Post;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -35,14 +34,6 @@ public class PostRestController {
 		
 		// db insert
 		int rowCount = postBO.addPost(userId, userLoginId, userName, content, file);
-		
-		// db select
-		Post post = postBO.getPostByUserNameContentFile(userId, content, file);
-
-		// 글쓴 사람 정보 담기
-		session.setAttribute("postUserId", post.getUserId());
-		session.setAttribute("postContent", post.getContent());
-		session.setAttribute("postImagePath", post.getImagePath());
 		
 		Map<String, Object> result = new HashMap<>();
 		
