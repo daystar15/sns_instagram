@@ -40,7 +40,7 @@
 			$.post(url, params) // request
 			.done(function(data) {
 				if (data.code == 1) {
-					location.href = "/post/post_list_view";
+					location.href = "/timeline/timeline_view";
 				} else {
 					alert(data.errorMessage);
 				}

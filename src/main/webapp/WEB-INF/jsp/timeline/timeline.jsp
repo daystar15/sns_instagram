@@ -1,16 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>    
 <div id="timelineBox" class="w-50 m-auto p-5">
+	<!-- 글쓰기 영역: 로그인 된 상태에서만 보여짐 -->
+	<c:if test="${not empty userName}">
+		<div class="writeBox">
+			<textarea class="p-2" id="content" placeholder="내용을 입력해주세요"></textarea>
+			<div class="d-flex justify-content-between p-1">
+				<input type="file" id="file" class="d-none" accept=".jpg,.jpeg,.png,.gif">
+				<button>
+					<img src="/static/img/imgPlus.png" id="imagePath" alt="사진첨부버튼">
+				</button>
+				
+				<!-- 업로드 된 임시 파일 이름이 저장될 곳 -->
+				<div id="fileName"></div>
+				
+				<input type="button" class="btn btn-info" value="업로드" id="uploadBtn">
+			</div>
+		</div>
+	</c:if>
+	
 	<div class="mt-5 mb-5" id="card">
 		<div class="d-flex justify-content-between p-2 align-items-center">
-			<span class="font-weight-bold pl-2">${userName}userName</span>
+			<span class="font-weight-bold pl-2">${postUserId}</span>
 			<a href="#" class="moreBtn">
 				<img src="/static/img/more-icon.png" alt="더보기버튼">
 			</a>
 		</div>
+		
 		<div class="uploadImgBox">
-			<img src="/static/img/dog.jpg">
+			<a href="#" id="fileUploadBtn">
+				<img src="/static/img/dog.jpg">
+			</a>
 		</div>
+		
 		<div id="contentBox" class="p-3">
 			<div id="heart" class="d-flex align-items-center mb-3">
 				<button type="button">
@@ -20,9 +43,9 @@
 				<span class="ml-2">좋아요 11개</span>
 			</div>
 			<div class="d-flex">
-				<span class="font-weight-bold mr-2">${userName}userName</span>
+				<span class="font-weight-bold mr-2">${postUserId}</span>
 				<p>
-					비지도 학습을 해본 결과입니다. cluster 알고리즘을 사용해봤어요
+					${postContent}
 				</p>
 			</div>
 		</div>
@@ -59,3 +82,85 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		// 파일업로드 이미지 클릭 => 숨겨져있는 file을 동작시킴
+		$("#imagePath").on('click', function(e) {
+			$("#file").click(); // input file을 클릭한 것과 같은 효과, 이미지 창을 뜨게만 만든다
+		});
+		
+		// 사용자가 이미지를 선택했을 때 유효성 확인 및 업로드 된 파일 이름 노출
+		$("#file").on('change', function(e) {
+			//alert("파일선택");
+			let fileName = e.target.files[0].name; //mountains-7468597_640.jpg
+			//alert(fileName);
+			
+			// 확장자 유효성 확인
+			let ext = fileName.split(".").pop().toLowerCase(); // 확장자만 자르기
+			if (ext != 'jpg' && ext != 'jpeg' && ext != 'png' && ext != 'gif') {
+				alert('이미지 파일만 업로드 할 수 있습니다.');
+				$('#file').val(''); // 파일 태그에 실제 파일 제거
+				$('#fileName').text(); // 파일 이름 비우기
+				return;
+			}
+			
+			// 유효성 통과한 이미지는 상자에 업로드 된 파일 이름 노출
+			$("#fileName").text(fileName);
+			
+		});
+		
+		// 글 저장
+		$("#uploadBtn").on('click', function() {
+			let content = $("#content").val();
+			let file = $("#file").val();
+			
+			// validation
+			if (content == '') {
+				alert('내용을 입력해주세요.');
+				return;
+			}
+			if (file == '') {
+				alert('사진을 선택해주세요.');
+				return;
+			}
+			
+			// ajax - 서버
+			let formData = new FormData();
+			
+			// name 속성 사용
+			formData.append("content", content);
+			formData.append("file", $("#file")[0].files[0]);
+			
+			$.ajax({
+				// request
+				type: "post"
+				, url: "/post/create"
+				, data:formData
+				, enctype:"multipart/form-data"
+				, processData:false
+				, contentType:false
+				
+				// response
+				, success:function(data) {
+					if (data.code == 1) {
+						alert('글이 작성되었습니다.');
+						location.reload(true);
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error:function(e) {
+					alert('글쓰기에 실패했습니다.')
+				}
+			});
+			
+			
+			
+			
+			
+			
+		});
+		
+	})
+</script>

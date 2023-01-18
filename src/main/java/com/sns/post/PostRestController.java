@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.post.bo.PostBO;
+import com.sns.post.model.Post;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,7 +24,6 @@ public class PostRestController {
 
 	@PostMapping("/create")
 	public Map<String, Object> create(
-			@RequestParam("userName") String userName,
 			@RequestParam("content") String content,
 			@RequestParam("file") MultipartFile file,
 			HttpSession session) { // userId, userLoginId를 가져오기 위해 session을 import한다
@@ -31,9 +31,18 @@ public class PostRestController {
 		// 로그인 안된 사용자 접근 시 에러 발생
 		int userId =  (int)session.getAttribute("userId");
 		String userLoginId = (String)session.getAttribute("userLoginId");
+		String userName = (String)session.getAttribute("userName");
 		
 		// db insert
 		int rowCount = postBO.addPost(userId, userLoginId, userName, content, file);
+		
+		// db select
+		Post post = postBO.getPostByUserNameContentFile(userId, content, file);
+
+		// 글쓴 사람 정보 담기
+		session.setAttribute("postUserId", post.getUserId());
+		session.setAttribute("postContent", post.getContent());
+		session.setAttribute("postImagePath", post.getImagePath());
 		
 		Map<String, Object> result = new HashMap<>();
 		

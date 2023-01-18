@@ -17,7 +17,7 @@
  		(
  			`userId`
 			, `content`
-			, `imagPath`
+			, `imagePath`
 			, `createdAt`
 			, `updatedAt`
  		)
@@ -25,10 +25,25 @@
  		(
  			#{userId}
  			, #{content}
- 			, #{imagPath}
+ 			, #{imagePath}
  			, NOW()
  			, NOW()
  		)
  	</insert>
+ 	
+ 	<select id="selectPostByUserNameContentFile" parameterType="map" resultType="com.sns.post.model.Post">
+ 		SELECT
+ 			`id`
+			, `userId`
+			, `subject`
+			, `content`
+			, `imagePath`
+			, `createdAt`
+			, `updatedAt`
+ 		FROM
+ 			`post`
+ 		WHERE
+ 			`userId` = #{userId}
+ 	</select>
  	
  </mapper>
