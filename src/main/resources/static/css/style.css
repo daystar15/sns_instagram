@@ -37,7 +37,7 @@ header .logo a {
 	border: none;
 	width: 100%;
 }
-#card {
+#card > div {
 	border: 1px solid #999;
 }
 #card .moreBtn {

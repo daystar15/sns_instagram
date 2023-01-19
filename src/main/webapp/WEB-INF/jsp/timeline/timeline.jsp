@@ -22,7 +22,7 @@
 	
 	<div class="mt-5 mb-5" id="card">
 		<c:forEach var="post" items="${postList}">
-		<div>
+		<div class="mb-5">
 			<div class="d-flex justify-content-between p-2 align-items-center">
 				<span class="font-weight-bold pl-2">${post.userId}</span>
 				<a href="#" class="moreBtn">
@@ -32,7 +32,7 @@
 			
 			<div class="uploadImgBox">
 				<a href="#" id="fileUploadBtn">
-					<img src="/static/img/dog.jpg">
+					<img src="${post.imagePath}">
 				</a>
 			</div>
 			
@@ -51,9 +51,6 @@
 					</p>
 				</div>
 			</div>
-		</div>
-		</c:forEach>
-		<div>
 			<h6 class="font-weight-bold p-3 mb-0">댓글</h6>
 			<div class="commentBox">
 				<div class="p-3">
@@ -78,12 +75,20 @@
 						</button>
 					</span>
 				</div>
+			<%-- 댓글쓰기 --%>
+			<c:if test="${not empty userId}">
+				<div id="writeComment" class="d-flex justify-content-between p-1">
+					<input type="text" placeholder="내용을 입력해주세요." class="pl-2" id="commentContent">
+					<input type="button" value="게시" class="btn btn-light comment-btn" data-post-id="${post.id}">
+				</div>
+			</c:if>
 			</div>
 		</div>
-		<div id="writeComment" class="d-flex justify-content-between p-1">
-			<input type="text" placeholder="내용을 입력해주세요." class="pl-2">
-			<input type="submit" value="게시" class="btn btn-light">
-		</div>
+		
+	
+		
+		</c:forEach>
+
 	</div>
 </div>
 
@@ -159,12 +164,52 @@
 				}
 			});
 			
+		}); //--- 글쓰기 버튼 끝
+		
+		// 댓글 쓰기
+		$(".comment-btn").on('click', function() {
+			// 글번호, 댓글 내용
+			let postId = $(this).data('post-id');
+			//alert(postId); - 안나옴
 			
+			// 지금 클릭된 게시버튼의 형제인 input 태그를 가져온다. siblings
+			let comment = $(this).siblings('input').val().trim();
+			alert(comment);
 			
+			if (comment == '') {
+				alert('댓글 내용을 입력해주세요.');
+				return;
+			}
+			
+			// ajax
+			$.ajax({
+				type: "post"
+				, url : "/comment/create"
+				, data: {"postId":postId, "userId":userId}
+				
+				
+				, success:function(data) {
+					if (data.code == 1) {
+						alert("댓글 쓰기에 성공했습니다.");
+					} else {
+						alert(data.errorMessage)
+					}
+				}
+				, error:function(jqXHR, testStatus, errorThrown) {
+					var errorMsg = jqXHR.responseJSON.status;
+					alert(errorMsg + ":" + textStatus)
+				}
+			})
 			
 			
 			
 		});
+		
+		
+		
+		
+		
+		
 		
 	})
 </script>
