@@ -39,7 +39,7 @@ public class CommentRestController {
 		}
 
 		commentBO.createComment(userId, postId, content);
-		result.put("code", 100); // 성공
+		result.put("code", 1); // 성공
 		result.put("result", "success");
 
 		return result;

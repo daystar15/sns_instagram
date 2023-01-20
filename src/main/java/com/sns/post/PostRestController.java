@@ -25,26 +25,23 @@ public class PostRestController {
 	public Map<String, Object> create(
 			@RequestParam("content") String content,
 			@RequestParam("file") MultipartFile file,
-			HttpSession session) { // userId, userLoginId를 가져오기 위해 session을 import한다
+			HttpSession session) {
 		
-		// 로그인 안된 사용자 접근 시 에러 발생
-		int userId =  (int)session.getAttribute("userId");
-		String userLoginId = (String)session.getAttribute("userLoginId");
-		String userName = (String)session.getAttribute("userName");
-		
-		// db insert
-		int rowCount = postBO.addPost(userId, userLoginId, userName, content, file);
+		Integer userId = (Integer) session.getAttribute("userId");
+		String userLoginId = (String) session.getAttribute("userLoginId");
 		
 		Map<String, Object> result = new HashMap<>();
-		
-		if (rowCount > 0) {
-			result.put("code", 1);
-			result.put("result", "성공");
-		} else {
-			result.put("code", 500);
-			result.put("errorMessage", "글쓰기에 실패했습니다.");
+		if (userId == null) {
+			result.put("code", 500); // 비로그인 상태
+			result.put("result", "error");
+			result.put("errorMessage", "로그인을 해주세요.");
+			return result;
 		}
 		
+		postBO.addPost(userId, userLoginId, content, file);
+		
+		result.put("code", 1);
+		result.put("result", "성공");
 		return result;
 	}
 }

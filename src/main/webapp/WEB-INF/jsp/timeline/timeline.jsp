@@ -20,11 +20,12 @@
 		</div>
 	</c:if>
 	
+	<%-- 카드 --%>
 	<div class="mt-5 mb-5" id="card">
-		<c:forEach var="post" items="${postList}">
+		
 		<div class="mb-5">
 			<div class="d-flex justify-content-between p-2 align-items-center">
-				<span class="font-weight-bold pl-2">${post.userId}</span>
+				<span class="font-weight-bold pl-2">${card.user.loginId}</span>
 				<a href="#" class="moreBtn">
 					<img src="/static/img/more-icon.png" alt="더보기버튼">
 				</a>
@@ -32,62 +33,54 @@
 			
 			<div class="uploadImgBox">
 				<a href="#" id="fileUploadBtn">
-					<img src="${post.imagePath}">
+					<img src="${card.post.imagePath}">
 				</a>
 			</div>
 			
 			<div id="contentBox" class="p-3">
 				<div id="heart" class="d-flex align-items-center mb-3">
-					<button type="button">
+					<button type="button" class="heartBtn">
 						<img src="/static/img/heart-icon.png">
 					</button>
 					<!-- <img src="/static/img/heart-icon-black.png"> -->
 					<span class="ml-2">좋아요 11개</span>
 				</div>
 				<div class="d-flex">
-					<span class="font-weight-bold mr-2">${post.userId}</span>
+					<span class="font-weight-bold mr-2">${card.user.userId}</span>
 					<p>
-						${post.content}
+						${card.post.content}
 					</p>
 				</div>
 			</div>
 			<h6 class="font-weight-bold p-3 mb-0">댓글</h6>
+			<%-- 댓글목록 --%>
 			<div class="commentBox">
+			
+				<%-- 댓글내용 --%>
+				<c:forEach var="commentView" items="${card.commentList}">
 				<div class="p-3">
 					<span>
-						<span class="name">userName </span> :
+						<span class="name">${commentView.user.loginId} </span> :
 					</span>
 					<span class="comment">
-						분류가 잘 되었군요~
+						${commentView.comment.content}
 						<button type="button">
 							<img src="/static/img/x-icon.png">
 						</button>
 					</span>
 				</div>
-				<div class="pl-3 pb-3">
-					<span>
-						<span class="name">userName </span> :
-					</span>
-					<span class="comment">
-						철이 없었죠 분류를 위해 클러스터를 썼다는게
-						<button type="button">
-							<img src="/static/img/x-icon.png">
-						</button>
-					</span>
-				</div>
-			<%-- 댓글쓰기 --%>
-			<c:if test="${not empty userId}">
-				<div id="writeComment" class="d-flex justify-content-between p-1">
-					<input type="text" placeholder="내용을 입력해주세요." class="pl-2" id="commentContent">
-					<input type="button" value="게시" class="btn btn-light comment-btn" data-post-id="${post.id}">
-				</div>
-			</c:if>
+				</c:forEach>
+				
+				<%-- 댓글쓰기 --%>
+				<c:if test="${not empty userId}">
+					<div id="writeComment" class="d-flex justify-content-between p-1">
+						<input type="text" placeholder="내용을 입력해주세요." class="pl-2" id="commentContent">
+						<input type="button" value="게시" class="btn btn-light comment-btn" data-post-id="${card.post.id}">
+					</div>
+				</c:if>
 			</div>
 		</div>
 		
-	
-		
-		</c:forEach>
 
 	</div>
 </div>
@@ -166,6 +159,7 @@
 			
 		}); //--- 글쓰기 버튼 끝
 		
+		
 		// 댓글 쓰기
 		$(".comment-btn").on('click', function() {
 			// 글번호, 댓글 내용
@@ -190,9 +184,10 @@
 				
 				, success:function(data) {
 					if (data.code == 1) {
-						alert("댓글 쓰기에 성공했습니다.");
-					} else {
-						alert(data.errorMessage)
+						location.reload(); // 새로고침
+					} else if (data.code == 500) {
+						alert("로그인을 해주세요.");
+						location.href = "/user/sign_in_view";
 					}
 				}
 				, error:function(jqXHR, testStatus, errorThrown) {
@@ -202,6 +197,10 @@
 			})
 			
 			
+			
+		}); //---댓글쓰기
+		
+		$(".heartBtn").on('click', function() {
 			
 		});
 		
