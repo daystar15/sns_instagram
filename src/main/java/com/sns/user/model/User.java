@@ -3,13 +3,11 @@ package com.sns.user.model;
 import java.util.Date;
 
 public class User {
-
 	private int id;
 	private String loginId;
 	private String password;
 	private String name;
 	private String email;
-	private String profileImageUrl;
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -43,12 +41,6 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getProfileImageUrl() {
-		return profileImageUrl;
-	}
-	public void setProfileImageUrl(String profileImageUrl) {
-		this.profileImageUrl = profileImageUrl;
-	}
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -61,5 +53,4 @@ public class User {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
 }

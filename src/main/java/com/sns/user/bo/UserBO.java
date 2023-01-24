@@ -12,12 +12,12 @@ public class UserBO {
 	@Autowired
 	private UserDAO userDAO;
 
-	public boolean existloginId(String loginId) {
-		return userDAO.existloginId(loginId);
+	public int existLoginId(String loginId) {
+		return userDAO.existLoginId(loginId);
 	}
-	
-	public void addUser(String loginId, String password, String name, String email, String profileImageUrl) {
-		userDAO.insertUser(loginId, password, name, email, profileImageUrl);
+
+	public int insertUser(String loginId, String password, String name, String email) {
+		return userDAO.insertUser(loginId, password, name, email);
 	}
 	
 	public User getUserByLoginIdPassword(String loginId, String password) {

@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/post")
 @RestController
 public class PostRestController {
-	
 	@Autowired
 	private PostBO postBO;
 

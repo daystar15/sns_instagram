@@ -2,9 +2,8 @@ package com.sns.comment.model;
 
 import java.util.Date;
 
-// Entity
+//Entity
 public class Comment {
-
 	private int id;
 	private int postId;
 	private int userId;
@@ -48,5 +47,4 @@ public class Comment {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
 }

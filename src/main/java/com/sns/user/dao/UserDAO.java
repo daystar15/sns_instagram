@@ -8,14 +8,13 @@ import com.sns.user.model.User;
 @Repository
 public interface UserDAO {
 
-	public boolean existloginId(String loginId);
+	public int existLoginId(String loginId);
 	
-	public void insertUser(
+	public int insertUser(
 			@Param("loginId") String loginId, 
 			@Param("password") String password, 
 			@Param("name") String name, 
-			@Param("email") String email,
-			@Param("profileImageUrl") String profileImageUrl);
+			@Param("email") String email);
 	
 	public User selectUserByLoginIdPassword(
 			@Param("loginId") String loginId, 

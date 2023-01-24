@@ -26,7 +26,6 @@ public class TimelineBO {
 	@Autowired
 	private CommentBO commentBO;
 
-	// generate 응답을 내리기 위한 객체로 사용한다.
 	// 로그인이 되지 않은 사람도 카드 목록이 보여야 한다.
 	public List<CardView> generateCardList() {
 		List<CardView> cardViewList = new ArrayList<>();
@@ -36,22 +35,22 @@ public class TimelineBO {
 		
 		// postList 반복문 => CardView => cardViewList에 넣는다.
 		for (Post post : postList) {
-			CardView card = new CardView(); // 글 하나당 새로운 카드를 만든다.
+			CardView card = new CardView();
 			
 			// 글
 			card.setPost(post);
 			
-			// 글쓴이
+			// 글쓴이 
 			User user = userBO.getUserById(post.getUserId());
 			card.setUser(user);
 			
 			// 글 하나에 해당하는 댓글들
-			List<CommentView> commentList = commentBO.generateCommentListByPostId(post.getId());
+			List<CommentView> commentList = commentBO.generateCommentViewListByPostId(post.getId());
 			card.setCommentList(commentList);
 			
-			// 내가 좋아요를 눌렀는지 filledLike
+			// 내가 좋아요를 눌렀는지 filledLike 
 			
-			// 카드 리스트에 채우기!!!!***
+			// 카드 리스트에 채우기!!!!!!!!!
 			cardViewList.add(card);
 		}
 		

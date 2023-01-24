@@ -24,9 +24,6 @@
 		</header>
 		<div id="contents">
 			<jsp:include page="../${viewName}.jsp" />
-			<div>
-				<jsp:include page="../${timelineViewName}" />
-			</div>
 		</div>
 		<footer id="footer">
 			<jsp:include page="../include/footer.jsp" />

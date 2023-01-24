@@ -1,80 +1,15 @@
 @charset "UTF-8";
-a, a:hover {
-	text-decoration: none !important;
-}
-textarea:focus {
-    outline: none;
-}
-button {
-	/*width: 40px;*/
-	background: transparent;
-	border: none;
-	cursor: pointer;
-}
-button:focus {
-	outline: none;
-}
-header .logo a {
-	color: #333;
-}
-#content {
-	height: 500px;
-}
-#footer {
-	height: 100px;
-}
-#timelineBox .writeBox {
-	border: 1px solid #999;
-	border-radius: 5px;
-}
-#timelineBox .writeBox button {
-	width: 40px;
-}
-#timelineBox .writeBox button img {
-	width: 100%;
-}
-#timelineBox textarea {
-	border: none;
-	width: 100%;
-}
-#card > div {
-	border: 1px solid #999;
-}
-#card .moreBtn {
-	width: 40px;
-}
-#card .moreBtn img {
-	width: 100%;
-}
-.uploadImgBox img {
-	width: 100%;
-}
-#heart button {
-	cursor: pointer;
-}
-#heart button img {
-	width: 25px;
-}
-.commentBox {
-	border-top: 1px solid #999;
-}
-.comment button {
-	width: 21px;
-}
-.comment button img {
-	width: 100%;
-	vertical-align: initial;
-}
-#writeComment input[type=text],
-#writeComment input[type=text]:focus {
-	border: none;
-	outline: none;
-	width: 100%;
-}
-.writeBox #content {
-	width: 100%;
-	height: auto;
-}
-.writeBox textarea {
-	width: 100%;
-}
+a {text-decoration:none; color:#000;}
+a:hover {text-decoration:none; color:#000;}
+
+header {height:80px; background-color:#ededed;}
+.header {height:80px;}
+
+.sign-up-box {width:650px; background-color:#ebebeb; margin-top:20px; box-shadow:5px 5px 5px 5px #BDC0C0;}
+.sign-up-subject {margin:20px; font-weight:bold;}
+
+.shadow-box {width:550px; background-color:#ebebeb; margin-top:20px; box-shadow:5px 5px 5px 5px #BDC0C0;}
+.login-box {width:400px;}
+
+.contents-box {width:650px;}
+#writeTextArea {height:100px;}

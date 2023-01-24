@@ -14,25 +14,23 @@ import com.sns.user.model.User;
 
 @Service
 public class CommentBO {
-	
 	@Autowired
 	private CommentDAO commentDAO;
 	
 	@Autowired
 	private UserBO userBO;
-
+	
 	public void createComment(int userId, int postId, String content) {
-		commentDAO.insertComment(userId, postId,content);
+		commentDAO.insertComment(userId, postId, content);
 	}
 	
-	public List<Comment> getCommentListByPostId(int postId) {
+	private List<Comment> getCommentListByPostId(int postId) {
 		return commentDAO.selectCommentListByPostId(postId);
 	}
 	
 	// input: 글번호
 	// output: 글번호에 해당하는 댓글목록(+댓글쓴이 정보)을 가져온다.
-	public List<CommentView> generateCommentListByPostId(int postId) {
-		
+	public List<CommentView> generateCommentViewListByPostId(int postId) {
 		// 결과물
 		List<CommentView> commentViewList = new ArrayList<>();
 		
@@ -56,6 +54,6 @@ public class CommentBO {
 		
 		// 결과물 리턴
 		return commentViewList;
-		
 	}
 }
+

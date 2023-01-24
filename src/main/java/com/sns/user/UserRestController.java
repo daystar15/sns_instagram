@@ -15,62 +15,55 @@ import com.sns.user.model.User;
 
 import jakarta.servlet.http.HttpSession;
 
-@RestController
 @RequestMapping("/user")
+@RestController
 public class UserRestController {
-	
 	@Autowired
 	private UserBO userBO;
-
+	
 	/**
-	 * 중복확인 API
+	 * 로그인 중복 확인
+	 * 
 	 * @param loginId
 	 * @return
 	 */
 	@RequestMapping("/is_duplicated_id")
-	public Map<String, Object> isDuplicationId(
-			@RequestParam("loginId") String loginId) {
-		
+	public Map<String, Object> isDuplicatedId(@RequestParam("loginId") String loginId) {
+
 		Map<String, Object> result = new HashMap<>();
-		boolean isDuplicated = userBO.existloginId(loginId);
-		if (isDuplicated) { // 중복
-			result.put("code", 1);
+		int existRowCount = userBO.existLoginId(loginId);
+		if (existRowCount > 0) { // 이미 id가 존재하면 true
 			result.put("result", true);
-		} else { // 사용가능
-			result.put("code", 1);
+		} else {
 			result.put("result", false);
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
-	 * 회원가입 API
+	 * 회원 가입
+	 * 
 	 * @param loginId
 	 * @param password
 	 * @param name
 	 * @param email
-	 * @param profileImageUrl
 	 * @return
 	 */
 	@PostMapping("/sign_up")
-	public Map<String, Object> signUp(
-			@RequestParam("loginId") String loginId,
-			@RequestParam("password") String password,
-			@RequestParam("name") String name,
-			@RequestParam("email") String email,
-			@RequestParam(value="profileImageUrl", required=false) String profileImageUrl) {
-		
-		// 비밀번호 암호화
-		String hashedPassword = EncryptUtils.md5(password);
-		
-		// db insert
-		userBO.addUser(loginId, hashedPassword, name, email, profileImageUrl);
-		
+	public Map<String, Object> signUp(@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password, @RequestParam("name") String name,
+			@RequestParam("email") String email) {
+
+		String encryptPassword = EncryptUtils.md5(password);
+		int row = userBO.insertUser(loginId, encryptPassword, name, email);
+
 		Map<String, Object> result = new HashMap<>();
-		result.put("code", 1);
-		result.put("result", "성공");
-		
+		if (row == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("error", "입력 실패");
+		}
 		return result;
 	}
 	
@@ -80,31 +73,19 @@ public class UserRestController {
 			@RequestParam("password") String password,
 			HttpSession session) {
 		
-		// 비밀번호 해싱
-		String hashedPassword = EncryptUtils.md5(password);
-		
-		// db select
-		User user = userBO.getUserByLoginIdPassword(loginId, hashedPassword);
+		String encryptPassword = EncryptUtils.md5(password);
+		User user = userBO.getUserByLoginIdPassword(loginId, encryptPassword);
 		
 		Map<String, Object> result = new HashMap<>();
 		if (user != null) {
-			// null이 아니면(행이 있으면) 로그인
-			result.put("code", 1);
-			result.put("result", "성공");
-			
-			// 세션에 유저 정보를 담는다.(로그인 유지)
-			session.setAttribute("userId", user.getId());
+			result.put("result", "success");
+			// 로그인 처리 - 세션에 저장(로그인 상태를 유지한다)
 			session.setAttribute("userLoginId", user.getLoginId());
-			session.setAttribute("userName", user.getName());
+			session.setAttribute("userName", user.getName());	
+			session.setAttribute("userId", user.getId());	
 		} else {
-			// 행이 없으면 로그인 실패
-			result.put("code", 500);
-			result.put("errorMessage", "존재하지 않는 사용자입니다.");
+			result.put("error", "입력 실패");
 		}
-		
-		// return map
 		return result;
-		
 	}
-	
 }

@@ -2,9 +2,8 @@ package com.sns.comment.model;
 
 import com.sns.user.model.User;
 
-// 댓글 한개와 매핑
+//댓글 한개와 매핑
 public class CommentView {
-
 	// 댓글 한개
 	private Comment comment;
 	
@@ -26,6 +25,5 @@ public class CommentView {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
 }
+
