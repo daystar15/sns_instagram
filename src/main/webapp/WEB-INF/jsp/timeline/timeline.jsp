@@ -246,7 +246,7 @@
 				, error: function(e) {
 					alert("좋아요/해제 하는데 실패했습니다.");
 				}
-			});
-		});
+			}); //---ajax
+		}); //---.like-btn
 	});
 </script>
