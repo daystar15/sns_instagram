@@ -51,15 +51,16 @@ public class FileManagerService {
 		return "/images/" + directoryName + file.getOriginalFilename(); // 한글로 바뀌면 오리지널네임도 바뀐다.
 	}
 	
-	public void deleteFile(String imagePath) {
+	public void deleteFile(String imagePath) {  // imagePath: /images/aaaa_16205468768/sun.png
+		//     \\images/    imagePath에 있는 겹치는  /images/ 구문 제거 
 		Path path = Paths.get(FILE_UPLOAD_PATH + imagePath.replace("/images/", ""));
 		if (Files.exists(path)) {
 			// 이미지 삭제
 			try {
 				Files.delete(path);
 			} catch (IOException e) {
-				logger.error("[이미지 삭제] 이미지 삭제 실패. imagePath:{},", imagePath);
-			}
+				logger.error("[이미지 삭제] 이미지 삭제 실패. imagePath:{}", imagePath);
+			}  
 			
 			// 디렉토리(폴더) 삭제
 			path = path.getParent();

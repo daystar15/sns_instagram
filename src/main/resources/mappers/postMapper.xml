@@ -64,8 +64,7 @@
 			`post`
 		WHERE
 			`id` = #{postId}
-			AND
-			`userId` = #{userId}
+			AND `userId` = #{userId}
 	</delete>
 	
 </mapper>

@@ -55,5 +55,10 @@ public class CommentBO {
 		// 결과물 리턴
 		return commentViewList;
 	}
+	
+	public void deleteCommentsByPostId(int postId) {
+		commentDAO.deleteCommentsByPostId(postId);
+	}
+	
 }
 

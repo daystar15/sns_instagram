@@ -57,16 +57,18 @@ public class PostRestController {
 			@RequestParam("postId") int postId,
 			HttpSession session) {
 		
-		int userId = (int)session.getAttribute("userId");
-		
 		Map<String, Object> result = new HashMap<>();
-		postBO.deletePostByPostIdUserId(postId, userId);
 		
-		result.put("result", "성공");
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 500);
+			result.put("errorMessage", "로그인을 다시 해주세요.");
+			return result;
+		}
+		
+		postBO.deletePostByPostIdUserId(postId, userId);
 		result.put("code", 1);
-	
-		result.put("code", 500);
-		result.put("errorMessage", "글 삭제에 실패했습니다. 관리자에게 문의해주세요.");
+		result.put("result", "성공");
 		
 		return result;
 	}
