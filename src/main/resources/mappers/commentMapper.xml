@@ -35,4 +35,9 @@
 		WHERE
 			`postId` = #{postId}
 	</select>
+	
+	<delete id="" parameterType="map">
+	
+	</delete>
+	
 </mapper>
