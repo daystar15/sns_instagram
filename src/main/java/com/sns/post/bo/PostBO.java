@@ -60,10 +60,10 @@ public class PostBO {
 		postDAO.deletePostByPostIdUserId(postId, userId);
 		
 		// 댓글들 삭제
-		postDAO.deletePostByPostIdUserId(postId, userId);
+		commentBO.deleteCommentsByPostId(postId);
 		
 		// 좋아요들 삭제
-		
+		likeBO.deleteLikeByPostId(postId);
 		
 	}
 	
